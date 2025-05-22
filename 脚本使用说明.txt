@@ -1,0 +1,7 @@
+1.连接inspire_hand
+（1）使用网线连接inspire_hand与对应主机，将ipv4修改为地址：192.168.11.222，子网掩码修改为255.255.255.0；ping 192.168.11.210后返回数据则连接成功，反之检查线路连接是否正常。
+2.运行脚本
+（1）demo_modbus.py文件为网口通信控制脚本py版本，运行后顺次执行连接、设置参数、读取信息、运行动作序列。可根据需求结合官网手册进行扩写。
+注：该测试版本python版本为python3、pymodbus版本为2.5.3,如需其他版本自行调整，代码对应内容需调整为相应版本内容，如from pymodbus.client.sync import ModbusTcpClient若pymodbus版本为最新版本需进行相应调整。
+（2）运行脚本前终端执行pip3 install pymodbus==2.5.3，下载pymodbus。
+（3）在py文件所在目录执行 python3 demo_modbus.py启动脚本。
