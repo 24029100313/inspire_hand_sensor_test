@@ -247,7 +247,7 @@ class HandDetector:
             'ring_finger_angle': calculate_angle(landmarks[16], landmarks[13], landmarks[0]),  # 16-13-0
             'pinky_finger_angle': calculate_angle(landmarks[20], landmarks[17], landmarks[0]),  # 20-17-0
             'thumb_angle': calculate_angle(landmarks[4], landmarks[2], landmarks[1]),  # 4-0-mean(5,9,13,17)
-            'wrist_angle': calculate_angle(landmarks[1], landmarks[0], mcp_mean_point)   # 1-0-mean(5,9,13,17)
+            'wrist_angle': calculate_angle(landmarks[2], landmarks[1], landmarks[0])   # 1-0-mean(5,9,13,17)
         }
         
         return angles
@@ -295,7 +295,7 @@ class HandDetector:
             'ring_finger': map_angle_to_inspire(angles['ring_finger_angle']),
             'pinky_finger': map_angle_to_inspire(angles['pinky_finger_angle']),
             'thumb': map_angle_to_inspire(angles['thumb_angle'], in_min=120, in_max=155, out_min=-13, out_max=70),
-            'wrist': map_angle_to_inspire(angles['wrist_angle'])
+            'wrist': map_angle_to_inspire(angles['wrist_angle'], in_min=130, in_max=145, out_min=90, out_max=165)
         }
         
         return inspire_values

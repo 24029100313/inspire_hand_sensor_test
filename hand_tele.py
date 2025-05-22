@@ -141,7 +141,8 @@ class HandTeleoperationSystem:
 						inspire_values['index_finger'],
 						inspire_values['thumb'],
 						# -1,  # Fixed thumb position
-					   -1 
+						  inspire_values['wrist']
+					#    -1 
 					]
 					
 					# Send command to the hand

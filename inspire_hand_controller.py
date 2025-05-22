@@ -474,7 +474,7 @@ class InspireHandController:
 			return False
 			
 		# Enforce thumb position
-		positions = self._enforce_thumb_position(positions.copy())
+		# positions = self._enforce_thumb_position(positions.copy())
 		
 		# Execute action in background thread
 		if self.action_thread and self.action_thread.is_alive():
