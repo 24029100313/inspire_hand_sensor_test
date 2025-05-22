@@ -56,7 +56,7 @@ class InspireHandController:
 	# Timing constants
 	ERROR_CHECK_INTERVAL = 5.0  # seconds
 	ACTION_DELAY = 0.6  # seconds
-	ACTION_TIMEOUT = 2  # seconds
+	ACTION_TIMEOUT = 1.5  # seconds
 	
 	def __init__(self, ip="192.168.11.210", port=6000):
 		"""
@@ -344,14 +344,33 @@ class InspireHandController:
 		"""
 		self.state = HandState.MOVING
 		
-		# Set the target angles
-		with self.lock:
-			for i, pos in enumerate(positions):
-				if pos != -1:  # Skip if position is -1 (no change)
-					self.target_angles[i] = pos
+		# Read current angles first
+		current_angles = self._read6("angleAct")
+		if not current_angles or len(current_angles) < 6:
+			print("Failed to read current angles")
+			current_angles = self.current_angles
 		
-		# Write the target angles to the register
-		success = self._write6("angleSet", positions)
+		# Create a new positions list with -1 for small changes
+		filtered_positions = positions.copy()
+		for i, pos in enumerate(positions):
+			if pos != -1:  # Only check positions that are not already -1
+				# If the change is less than 20, don't move this finger
+				if abs(pos - current_angles[i]) < 20:
+					filtered_positions[i] = -1
+					print(f"Skipping finger {i} (change too small: {abs(pos - current_angles[i])})")
+				else:
+					# Set the target angle for significant changes
+					with self.lock:
+						self.target_angles[i] = pos
+		
+		# Check if any fingers need to move
+		if all(pos == -1 for pos in filtered_positions):
+			print("No significant changes detected, skipping command")
+			self.state = HandState.IDLE
+			return True
+		
+		# Write the filtered target angles to the register
+		success = self._write6("angleSet", filtered_positions)
 		time.sleep(self.ACTION_DELAY)
 		
 		
