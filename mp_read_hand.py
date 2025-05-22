@@ -188,6 +188,117 @@ class HandDetector:
                 f.write(f'{idx},{x},{y},{z}\n')
         
         print(f"Saved landmarks to {filename}")
+        
+    def extract_angles(self, landmarks):
+        """
+        Extract 6 key angles from hand landmarks.
+        
+        Args:
+            landmarks: MediaPipe hand landmarks
+            
+        Returns:
+            dict: Dictionary containing the 6 angles in degrees
+        """
+        if not landmarks:
+            return None
+            
+        import math
+        
+        # Function to calculate angle between three points
+        def calculate_angle(p1, p2, p3):
+            # Convert to 3D vectors
+            v1 = np.array([p1.x, p1.y, p1.z])
+            v2 = np.array([p2.x, p2.y, p2.z])
+            v3 = np.array([p3.x, p3.y, p3.z])
+            
+            # Calculate vectors from points
+            vector1 = v1 - v2
+            vector2 = v3 - v2
+            
+            # Calculate dot product
+            dot_product = np.dot(vector1, vector2)
+            
+            # Calculate magnitudes
+            mag1 = np.linalg.norm(vector1)
+            mag2 = np.linalg.norm(vector2)
+            
+            # Calculate angle in radians and convert to degrees
+            cos_angle = dot_product / (mag1 * mag2)
+            # Clamp to avoid numerical issues
+            cos_angle = max(min(cos_angle, 1.0), -1.0)
+            angle_rad = math.acos(cos_angle)
+            angle_deg = math.degrees(angle_rad)
+            
+            return angle_deg
+        
+        # Calculate mean position of MCP joints (5, 9, 13, 17)
+        mcp_mean = np.array([0.0, 0.0, 0.0])
+        for idx in [5, 9, 13, 17]:
+            mcp_mean += np.array([landmarks[idx].x, landmarks[idx].y, landmarks[idx].z])
+        mcp_mean /= 4
+        
+        # Create a point object for the mean MCP position
+        mcp_mean_point = type('Point', (), {'x': mcp_mean[0], 'y': mcp_mean[1], 'z': mcp_mean[2]})
+        
+        # Calculate the 6 angles
+        angles = {
+            'index_finger_angle': calculate_angle(landmarks[8], landmarks[5], landmarks[0]),  # 8-5-0
+            'middle_finger_angle': calculate_angle(landmarks[12], landmarks[9], landmarks[0]),  # 12-9-0
+            'ring_finger_angle': calculate_angle(landmarks[16], landmarks[13], landmarks[0]),  # 16-13-0
+            'pinky_finger_angle': calculate_angle(landmarks[20], landmarks[17], landmarks[0]),  # 20-17-0
+            'thumb_angle': calculate_angle(landmarks[4], landmarks[0], mcp_mean_point),  # 4-0-mean(5,9,13,17)
+            'wrist_angle': calculate_angle(landmarks[1], landmarks[0], mcp_mean_point)   # 1-0-mean(5,9,13,17)
+        }
+        
+        return angles
+    def convert_fingure_to_inspire(self, landmarks):
+        """
+        Convert hand landmarks to Inspire Hand format.
+        
+        Maps finger angles from 50-165 degrees to 20-176 degrees,
+        then interpolates to 0-1000 range (0 for 20°, 1000 for 176°).
+        
+        Args:
+            landmarks: MediaPipe hand landmarks
+            
+        Returns:
+            dict: Dictionary containing the mapped finger values (0-1000)
+        """
+        if not landmarks:
+            return None
+            
+        # Extract the angles first
+        angles = self.extract_angles(landmarks)
+        if not angles:
+            return None
+            
+        # Function to map angle from one range to another and then to 0-1000
+        def map_angle_to_inspire(angle, in_min=50, in_max=165, out_min=20, out_max=176):
+            # First clamp the input angle to the input range
+            clamped_angle = max(min(angle, in_max), in_min)
+            
+            # Map from input range to output range
+            mapped_angle = out_min + (clamped_angle - in_min) * (out_max - out_min) / (in_max - in_min)
+            
+            # Map to 0-1000 range (0 for 20 degrees, 1000 for 176 degrees)
+            inspire_value = int((mapped_angle - 20) * 1000 / (176 - 20))
+            
+            # Ensure the result is in 0-1000 range
+            inspire_value = max(min(inspire_value, 1000), 0)
+            
+            return inspire_value
+        
+        # Map each finger angle to Inspire Hand format
+        inspire_values = {
+            'index_finger': map_angle_to_inspire(angles['index_finger_angle']),
+            'middle_finger': map_angle_to_inspire(angles['middle_finger_angle']),
+            'ring_finger': map_angle_to_inspire(angles['ring_finger_angle']),
+            'pinky_finger': map_angle_to_inspire(angles['pinky_finger_angle']),
+            'thumb': map_angle_to_inspire(angles['thumb_angle']),
+            'wrist': map_angle_to_inspire(angles['wrist_angle'])
+        }
+        
+        return inspire_values
 
 def run_hand_detector_demo(target_hand='both'):
     """
@@ -228,6 +339,25 @@ def run_hand_detector_demo(target_hand='both'):
         if landmarks:
             for i, landmark_set in enumerate(landmarks):
                 print(f"Hand {i} detected")
+                
+                # Extract and display angles
+                angles = detector.extract_angles(landmark_set)
+                if angles:
+                    print("Hand angles (degrees):")
+                    for angle_name, angle_value in angles.items():
+                        print(f"  {angle_name}: {angle_value:.2f}°")
+                    
+                    # Convert to Inspire Hand format and display
+                    inspire_values = detector.convert_fingure_to_inspire(landmark_set)
+                    if inspire_values:
+                        print("Inspire Hand values (0-1000):")
+                        for finger_name, value in inspire_values.items():
+                            print(f"  {finger_name}: {value}")
+                            
+                        # Print as a comma-separated list for easy copying
+                        values_list = [str(inspire_values[k]) for k in ['index_finger', 'middle_finger', 'ring_finger', 'pinky_finger', 'thumb', 'wrist']]
+                        print(f"Values for Inspire Hand: {','.join(values_list)}")
+                        
                 
                 # Save landmarks if needed
                 detector.save_landmarks(
