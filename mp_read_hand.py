@@ -150,7 +150,8 @@ def run_hand_landmarker():
         num_hands=2,  # Detect up to 2 hands
         min_hand_detection_confidence=0.5,
         min_hand_presence_confidence=0.5,
-        min_tracking_confidence=0.5
+        min_tracking_confidence=0.5,
+        running_mode=vision.RunningMode.VIDEO
     )
     
     # Download the model if not available
