@@ -5,7 +5,8 @@ import matplotlib.animation as animation
 from matplotlib.colors import LinearSegmentedColormap
 
 # Updated imports for newer pymodbus versions
-from pymodbus.client.sync import ModbusTcpClient
+import asyncio
+from pymodbus.client import ModbusTcpClient
 from pymodbus.exceptions import ModbusException
 
 # Define Modbus TCP parameters
@@ -106,15 +107,31 @@ def read_register_range(client, start_addr, end_addr):
     """
     register_values = []
 
-    # Read registers in batches
-    for addr in range(start_addr, end_addr + 1, MAX_REGISTERS_PER_READ * 2):
+    for addr in range(start_addr, end_addr, MAX_REGISTERS_PER_READ * 2):
         current_count = min(MAX_REGISTERS_PER_READ, (end_addr - addr) // 2 + 1)
 
         try:
-            response = client.read_holding_registers(address=addr, count=current_count)
-            register_values.extend(response.registers)
+            # Try the new API format first
+            try:
+                response = client.read_holding_registers(address=addr, count=current_count)
+            except TypeError:
+                # Fall back to old API format
+                response = client.read_holding_registers(addr, current_count)
+                
+            # Extract registers from the response
+            if hasattr(response, 'registers'):
+                register_values.extend(response.registers)
+            elif isinstance(response, list):
+                register_values.extend(response)
+            else:
+                print(f"Unexpected response format: {type(response)}")
+                register_values.extend([0] * current_count)
+                
         except ModbusException as e:
             print(f"Failed to read register {addr}: {e}")
+            register_values.extend([0] * current_count)
+        except Exception as e:
+            print(f"Unexpected error reading register {addr}: {e}")
             register_values.extend([0] * current_count)
 
     return register_values
@@ -207,29 +224,47 @@ def read_segment_data(client, segment, use_simulated_data=False, frame=0):
 
 
 class TouchDataVisualizer:
-    def __init__(self, use_simulated_data=False):
+    def __init__(self, use_simulated_data=False, client=None):
         self.use_simulated_data = use_simulated_data
         self.frame_count = 0
+        self.external_client = client is not None
 
-        # Create Modbus client if using real data
+        # Use provided client or create a new one if using real data
         if not use_simulated_data:
-            try:
-                self.client = ModbusTcpClient(MODBUS_IP, port=MODBUS_PORT)
-                connection_status = self.client.connect()
-                if not connection_status:
-                    print(
-                        f"Failed to connect to Modbus device at {MODBUS_IP}:{MODBUS_PORT}"
-                    )
+            if client:
+                # Use the provided client
+                self.client = client
+                print("Using external Modbus client for touch data visualization")
+                
+                # Verify the client is connected
+                try:
+                    if not self.client.connected:
+                        print("External client is not connected")
+                        print("Falling back to simulated data mode")
+                        self.use_simulated_data = True
+                except AttributeError:
+                    # Try the older API
+                    try:
+                        if not self.client.is_socket_open():
+                            print("External client is not connected")
+                            print("Falling back to simulated data mode")
+                            self.use_simulated_data = True
+                    except Exception as e:
+                        print(f"Error checking client connection: {e}")
+                        print("Falling back to simulated data mode")
+                        self.use_simulated_data = True
+            else:
+                # Create a new client
+                try:
+                    self.client = ModbusTcpClient(host=MODBUS_IP, port=MODBUS_PORT)
+                    # Connect the client
+                    self.client.connect()
+                    print(f"Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
+                except Exception as e:
+                    print(f"Error connecting to Modbus device: {e}")
                     print("Falling back to simulated data mode")
                     self.use_simulated_data = True
-                else:
-                    print(
-                        f"Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}"
-                    )
-            except Exception as e:
-                print(f"Error connecting to Modbus device: {e}")
-                print("Falling back to simulated data mode")
-                self.use_simulated_data = True
+                    self.client = None
         else:
             print("Using simulated data mode")
             self.client = None
@@ -460,14 +495,26 @@ class TouchDataVisualizer:
 
     def close(self):
         try:
-            if (
-                self.client
-                and hasattr(self.client, "is_socket_open")
-                and self.client.is_socket_open()
-            ):
-                print("Closing Modbus client connection...")
-                self.client.close()
-                print("Connection closed.")
+            # Only close the client if it's not an external client
+            if self.client and not self.external_client:
+                # Check if client is connected using the appropriate method
+                is_connected = False
+                try:
+                    # Try new API first
+                    is_connected = self.client.connected
+                except AttributeError:
+                    # Fall back to old API
+                    try:
+                        is_connected = self.client.is_socket_open()
+                    except Exception:
+                        pass
+                
+                if is_connected:
+                    print("Closing Modbus client connection...")
+                    self.client.close()
+                    print("Connection closed.")
+            elif self.external_client and self.client:
+                print("Using external Modbus client - not closing connection")
         except Exception as e:
             print(f"Error closing client: {e}")
             import traceback

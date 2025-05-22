@@ -4,7 +4,7 @@ import signal
 import os 
 import threading
 import enum
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 from pymodbus.exceptions import ModbusException
 
 class HandState(enum.Enum):
@@ -58,17 +58,20 @@ class InspireHandController:
 	ACTION_DELAY = 0.6  # seconds
 	ACTION_TIMEOUT = 1.5  # seconds
 	
-	def __init__(self, ip="192.168.11.210", port=6000):
+	def __init__(self, ip="192.168.11.210", port=6000, external_client=None, external_lock=None):
 		"""
 		Initialize the hand controller.
 		
 		Args:
 			ip (str): IP address of the Modbus server
 			port (int): Port of the Modbus server
+			external_client (ModbusTcpClient, optional): External Modbus client to use
+			external_lock (threading.Lock, optional): External lock for thread safety
 		"""
 		self.ip = ip
 		self.port = port
-		self.client = None
+		self.client = external_client  # Can be None, will be set in connect()
+		self.external_client = external_client is not None  # Flag to track if client is external
 		self.state = HandState.IDLE
 		self.error_codes = [0, 0, 0, 0, 0, 0]
 		self.current_angles = [0, 0, 0, 0, self.DEFAULT_THUMB_POSITION, 1000]
@@ -80,17 +83,37 @@ class InspireHandController:
 		self.running = False
 		self.error_check_thread = None
 		self.action_thread = None
-		self.lock = threading.Lock()
+		self.lock = external_lock if external_lock else threading.Lock()
 	
 	def connect(self):
 		"""Connect to the Modbus server."""
 		try:
-			self.client = ModbusTcpClient(self.ip, self.port)
-			connection_status = self.client.connect()
-			if not connection_status:
-				print(f"Failed to connect to Modbus device at {self.ip}:{self.port}")
-				return False
-			print(f"Successfully connected to Modbus device at {self.ip}:{self.port}")
+			# If we already have an external client, use it
+			if not self.external_client:
+				self.client = ModbusTcpClient(host=self.ip, port=self.port)
+				try:
+					self.client.connect()
+					print(f"Successfully connected to Modbus device at {self.ip}:{self.port}")
+				except Exception as e:
+					print(f"Failed to connect to Modbus device at {self.ip}:{self.port}: {e}")
+					return False
+			else:
+				# Verify the external client is connected
+				try:
+					# Try new API first
+					if not self.client.connected:
+						print("External client is not connected")
+						return False
+				except AttributeError:
+					# Fall back to old API
+					try:
+						if not self.client.is_socket_open():
+							print("External client is not connected")
+							return False
+					except Exception as e:
+						print(f"Error checking client connection: {e}")
+						return False
+				print("Using external Modbus client")
 			
 			# Start error checking thread
 			self.running = True
@@ -99,8 +122,8 @@ class InspireHandController:
 			self.error_check_thread.start()
 			
 			# Set initial speeds and forces
-			self.set_speeds(self.speeds)
-			self.set_forces(self.forces)
+			self._write6("speedSet", self.speeds)
+			self._write6("forceSet", self.forces)
 			
 			return True
 		except Exception as e:
@@ -116,10 +139,30 @@ class InspireHandController:
 		if self.action_thread and self.action_thread.is_alive():
 			self.action_thread.join(timeout=1.0)
 			
-		if self.client and self.client.is_socket_open():
-			print("Closing Modbus client connection...")
-			self.client.close()
-			print("Connection closed.")
+		# Only close the client if it's not an external client
+		if self.client and not self.external_client:
+			# Check if client is connected using the appropriate method
+			is_connected = False
+			try:
+				# Try new API first
+				is_connected = self.client.connected
+			except AttributeError:
+				# Fall back to old API
+				try:
+					is_connected = self.client.is_socket_open()
+				except Exception:
+					pass
+			
+			if is_connected:
+				print("Closing Modbus client connection...")
+				self.client.close()
+				print("Connection closed.")
+		elif self.external_client:
+			print("Using external client - not closing connection")
+			
+		# Reset client reference if it was our own
+		if not self.external_client:
+			self.client = None
 	
 	def _write_register(self, address, values, reg_name=None):
 		"""
@@ -136,9 +179,19 @@ class InspireHandController:
 		try:
 			with self.lock:
 				if isinstance(values, list):
-					self.client.write_registers(address, values)
+					# Try the new API format first
+					try:
+						self.client.write_registers(address=address, values=values)
+					except TypeError:
+						# Fall back to old API format
+						self.client.write_registers(address, values)
 				else:
-					self.client.write_register(address, values)
+					# Try the new API format first
+					try:
+						self.client.write_register(address=address, value=values)
+					except TypeError:
+						# Fall back to old API format
+						self.client.write_register(address, values)
 					
 				if reg_name and 'angleset' in reg_name.lower():
 					time.sleep(self.ACTION_DELAY)
@@ -160,11 +213,26 @@ class InspireHandController:
 		"""
 		try:
 			with self.lock:
-				response = self.client.read_holding_registers(address, count)
-			if response.isError():
+				# Try the new API format first
+				try:
+					response = self.client.read_holding_registers(address=address, count=count)
+				except TypeError:
+					# Fall back to old API format
+					response = self.client.read_holding_registers(address, count)
+				
+			# Check for errors in the response
+			if hasattr(response, 'isError') and response.isError():
 				print(f"Error reading register {address}: {response}")
 				return []
-			return response.registers
+				
+			# Extract registers from the response
+			if hasattr(response, 'registers'):
+				return response.registers
+			elif isinstance(response, list):
+				return response
+			else:
+				print(f"Unexpected response format: {type(response)}")
+				return []
 		except Exception as e:
 			print(f"Error reading register {address}: {e}")
 			return []

@@ -8,6 +8,7 @@ import threading
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from pymodbus.client import ModbusTcpClient
 
 # Import our custom modules
 from mp_read_hand import HandDetector
@@ -33,6 +34,8 @@ class HandTeleoperationSystem:
             show_touch_data (bool): Whether to show touch sensor data visualization
             use_simulated_touch (bool): Whether to use simulated touch data
         """
+        self.hand_ip = hand_ip
+        self.hand_port = hand_port
         self.target_hand = target_hand
         self.running = False
         self.last_command_time = 0
@@ -44,9 +47,21 @@ class HandTeleoperationSystem:
         print(f"Initializing hand detector for {target_hand} hand...")
         self.detector = HandDetector(target_hand=target_hand)
         
-        # Initialize the Inspire Hand controller
-        print(f"Connecting to Inspire Hand at {hand_ip}:{hand_port}...")
-        self.hand_controller = InspireHandController(ip=hand_ip, port=hand_port)
+        # Create separate Modbus clients for control and sensing
+        self.control_client = None
+        self.sensing_client = None
+        
+        # Initialize the Inspire Hand controller with its own client
+        print(f"Connecting to Inspire Hand at {hand_ip}:{hand_port} for control...")
+        self.control_client = ModbusTcpClient(host=hand_ip, port=hand_port)
+        # Connect the client
+        try:
+            self.control_client.connect()
+            print(f"Control client connected to {hand_ip}:{hand_port}")
+        except Exception as e:
+            print(f"Error connecting control client: {e}")
+            
+        self.hand_controller = InspireHandController(ip=hand_ip, port=hand_port, external_client=self.control_client)
         
         # Set default speeds and forces
         self.speeds = [1000, 1000, 1000, 1000, 1000, 1000]
@@ -56,8 +71,24 @@ class HandTeleoperationSystem:
         self.touch_visualizer = None
         self.touch_animation = None
         if show_touch_data:
-            print(f"Initializing touch data visualizer (simulated={use_simulated_touch})...")
-            self.touch_visualizer = TouchDataVisualizer(use_simulated_data=use_simulated_touch)
+            # Create a separate client for sensing
+            print(f"Creating separate connection for touch sensing at {hand_ip}:{hand_port}...")
+            if not use_simulated_touch:
+                self.sensing_client = ModbusTcpClient(host=hand_ip, port=hand_port)
+                # Connect the sensing client
+                try:
+                    self.sensing_client.connect()
+                    print(f"Sensing client connected to {hand_ip}:{hand_port}")
+                    print(f"Initializing touch data visualizer with separate connection...")
+                    self.touch_visualizer = TouchDataVisualizer(use_simulated_data=use_simulated_touch, client=self.sensing_client)
+                except Exception as e:
+                    print(f"Error connecting sensing client: {e}")
+                    print(f"Falling back to simulated touch data...")
+                    self.use_simulated_touch = True
+                    self.touch_visualizer = TouchDataVisualizer(use_simulated_data=True)
+            else:
+                print(f"Initializing touch data visualizer with simulated data...")
+                self.touch_visualizer = TouchDataVisualizer(use_simulated_data=True)
     
     def connect_hand(self):
         """
@@ -123,9 +154,9 @@ class HandTeleoperationSystem:
         
         return annotated_frame
     
-    def _start_touch_visualization(self):
+    def _setup_touch_visualization(self):
         """
-        Start the touch data visualization in a separate thread.
+        Set up the touch data visualization without blocking.
         """
         if self.touch_visualizer:
             # Create animation
@@ -138,8 +169,10 @@ class HandTeleoperationSystem:
                 cache_frame_data=False,
             )
             
-            # Show the plot (this will block the thread)
-            plt.show()
+            # Set up the plot to be non-blocking
+            plt.ion()  # Turn on interactive mode
+            self.touch_visualizer.fig.show()
+            plt.pause(0.1)  # Small pause to allow the window to appear
     
     def run(self):
         """
@@ -150,13 +183,10 @@ class HandTeleoperationSystem:
             print("Failed to connect to the Inspire Hand. Exiting.")
             return
         
-        # Start touch data visualization in a separate thread if enabled
-        touch_thread = None
+        # Set up touch data visualization if enabled (non-blocking)
         if self.show_touch_data and self.touch_visualizer:
-            print("Starting touch data visualization in a separate window...")
-            touch_thread = threading.Thread(target=self._start_touch_visualization)
-            touch_thread.daemon = True  # Thread will exit when main program exits
-            touch_thread.start()
+            print("Setting up touch data visualization in a separate window...")
+            self._setup_touch_visualization()
         
         # Initialize camera
         cap = cv2.VideoCapture(0)
@@ -189,6 +219,11 @@ class HandTeleoperationSystem:
                 # Display the frame
                 cv2.imshow('Hand Teleoperation', annotated_frame)
                 
+                # Update the touch visualization if it's enabled
+                if self.show_touch_data and self.touch_visualizer and plt.fignum_exists(self.touch_visualizer.fig.number):
+                    # Update the plot without blocking
+                    plt.pause(0.01)  # Small pause to update the plot
+                
                 # Break the loop if 'q' is pressed
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -208,7 +243,25 @@ class HandTeleoperationSystem:
                 if hasattr(self.touch_visualizer, 'close'):
                     self.touch_visualizer.close()
             
-            # Disconnect from the hand
+            # Close the sensing client if it exists
+            if self.sensing_client:
+                # Check if client is connected using the appropriate method
+                is_connected = False
+                try:
+                    # Try new API first
+                    is_connected = self.sensing_client.connected
+                except AttributeError:
+                    # Fall back to old API
+                    try:
+                        is_connected = self.sensing_client.is_socket_open()
+                    except Exception:
+                        pass
+                
+                if is_connected:
+                    print("Closing sensing Modbus client...")
+                    self.sensing_client.close()
+            
+            # Disconnect from the hand (will handle the control client)
             self.disconnect_hand()
             print("Hand teleoperation system stopped.")
 
