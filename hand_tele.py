@@ -6,10 +6,13 @@ import signal
 import sys
 import threading
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 
 # Import our custom modules
 from mp_read_hand import HandDetector
 from inspire_hand_controller import InspireHandController, HandState
+from read_and_vis_data import TouchDataVisualizer
 
 class HandTeleoperationSystem:
     """
@@ -19,7 +22,7 @@ class HandTeleoperationSystem:
     to create a real-time teleoperation system.
     """
     
-    def __init__(self, hand_ip="192.168.11.210", hand_port=6000, target_hand="left"):
+    def __init__(self, hand_ip="192.168.11.210", hand_port=6000, target_hand="left", show_touch_data=True, use_simulated_touch=False):
         """
         Initialize the hand teleoperation system.
         
@@ -27,11 +30,15 @@ class HandTeleoperationSystem:
             hand_ip (str): IP address of the Inspire Hand
             hand_port (int): Port of the Inspire Hand
             target_hand (str): Which hand to track ('left', 'right', or 'both')
+            show_touch_data (bool): Whether to show touch sensor data visualization
+            use_simulated_touch (bool): Whether to use simulated touch data
         """
         self.target_hand = target_hand
         self.running = False
         self.last_command_time = 0
         self.command_interval = 0.1  # Send commands every 0.1 seconds
+        self.show_touch_data = show_touch_data
+        self.use_simulated_touch = use_simulated_touch
         
         # Initialize the hand detector
         print(f"Initializing hand detector for {target_hand} hand...")
@@ -44,6 +51,13 @@ class HandTeleoperationSystem:
         # Set default speeds and forces
         self.speeds = [1000, 1000, 1000, 1000, 1000, 1000]
         self.forces = [500, 500, 500, 500, 500, 500]
+        
+        # Initialize touch data visualizer if needed
+        self.touch_visualizer = None
+        self.touch_animation = None
+        if show_touch_data:
+            print(f"Initializing touch data visualizer (simulated={use_simulated_touch})...")
+            self.touch_visualizer = TouchDataVisualizer(use_simulated_data=use_simulated_touch)
     
     def connect_hand(self):
         """
@@ -109,6 +123,24 @@ class HandTeleoperationSystem:
         
         return annotated_frame
     
+    def _start_touch_visualization(self):
+        """
+        Start the touch data visualization in a separate thread.
+        """
+        if self.touch_visualizer:
+            # Create animation
+            self.touch_animation = FuncAnimation(
+                self.touch_visualizer.fig,
+                self.touch_visualizer.update_plot,
+                frames=range(1000),  # Limited number of frames
+                interval=100,  # Update every 100ms
+                blit=False,
+                cache_frame_data=False,
+            )
+            
+            # Show the plot (this will block the thread)
+            plt.show()
+    
     def run(self):
         """
         Run the hand teleoperation system.
@@ -117,6 +149,14 @@ class HandTeleoperationSystem:
         if not self.connect_hand():
             print("Failed to connect to the Inspire Hand. Exiting.")
             return
+        
+        # Start touch data visualization in a separate thread if enabled
+        touch_thread = None
+        if self.show_touch_data and self.touch_visualizer:
+            print("Starting touch data visualization in a separate window...")
+            touch_thread = threading.Thread(target=self._start_touch_visualization)
+            touch_thread.daemon = True  # Thread will exit when main program exits
+            touch_thread.start()
         
         # Initialize camera
         cap = cv2.VideoCapture(0)
@@ -160,6 +200,15 @@ class HandTeleoperationSystem:
             self.running = False
             cap.release()
             cv2.destroyAllWindows()
+            
+            # Close touch visualizer if it exists
+            if self.touch_visualizer:
+                print("Closing touch data visualizer...")
+                plt.close('all')
+                if hasattr(self.touch_visualizer, 'close'):
+                    self.touch_visualizer.close()
+            
+            # Disconnect from the hand
             self.disconnect_hand()
             print("Hand teleoperation system stopped.")
 
@@ -180,18 +229,23 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     
     # Parse command line arguments
-    hand_ip = "192.168.11.210"  # Default IP
-    hand_port = 6000  # Default port
-    target_hand = "left"  # Default hand to track
+    import argparse
     
-    # Check if IP and port are provided
-    if len(sys.argv) > 1:
-        hand_ip = sys.argv[1]
-    if len(sys.argv) > 2:
-        hand_port = int(sys.argv[2])
-    if len(sys.argv) > 3 and sys.argv[3] in ['left', 'right', 'both']:
-        target_hand = sys.argv[3]
+    parser = argparse.ArgumentParser(description="Hand teleoperation system")
+    parser.add_argument("--ip", default="192.168.11.210", help="IP address of the Inspire Hand")
+    parser.add_argument("--port", type=int, default=6000, help="Port of the Inspire Hand")
+    parser.add_argument("--hand", default="left", choices=["left", "right", "both"], help="Which hand to track")
+    parser.add_argument("--no-touch", action="store_true", help="Disable touch data visualization")
+    parser.add_argument("--simulate-touch", action="store_true", help="Use simulated touch data instead of real sensor data")
+    
+    args = parser.parse_args()
     
     # Create and run the system
-    system = HandTeleoperationSystem(hand_ip, hand_port, target_hand)
+    system = HandTeleoperationSystem(
+        hand_ip=args.ip,
+        hand_port=args.port,
+        target_hand=args.hand,
+        show_touch_data=not args.no_touch,
+        use_simulated_touch=args.simulate_touch
+    )
     system.run()
