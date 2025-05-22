@@ -42,7 +42,7 @@ class HandTeleoperationSystem:
         self.hand_controller = InspireHandController(ip=hand_ip, port=hand_port)
         
         # Set default speeds and forces
-        self.speeds = [500, 500, 500, 500, 500, 500]
+        self.speeds = [1000, 1000, 1000, 1000, 1000, 1000]
         self.forces = [500, 500, 500, 500, 500, 500]
     
     def connect_hand(self):
