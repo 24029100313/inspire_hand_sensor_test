@@ -246,7 +246,7 @@ class HandDetector:
             'middle_finger_angle': calculate_angle(landmarks[12], landmarks[9], landmarks[0]),  # 12-9-0
             'ring_finger_angle': calculate_angle(landmarks[16], landmarks[13], landmarks[0]),  # 16-13-0
             'pinky_finger_angle': calculate_angle(landmarks[20], landmarks[17], landmarks[0]),  # 20-17-0
-            'thumb_angle': calculate_angle(landmarks[4], landmarks[0], mcp_mean_point),  # 4-0-mean(5,9,13,17)
+            'thumb_angle': calculate_angle(landmarks[4], landmarks[2], landmarks[1]),  # 4-0-mean(5,9,13,17)
             'wrist_angle': calculate_angle(landmarks[1], landmarks[0], mcp_mean_point)   # 1-0-mean(5,9,13,17)
         }
         
@@ -281,7 +281,7 @@ class HandDetector:
             mapped_angle = out_min + (clamped_angle - in_min) * (out_max - out_min) / (in_max - in_min)
             
             # Map to 0-1000 range (0 for 20 degrees, 1000 for 176 degrees)
-            inspire_value = int((mapped_angle - 20) * 1000 / (176 - 20))
+            inspire_value = int((mapped_angle - out_min) * 1000 / (out_max - out_min))
             
             # Ensure the result is in 0-1000 range
             inspire_value = max(min(inspire_value, 1000), 0)
@@ -294,7 +294,7 @@ class HandDetector:
             'middle_finger': map_angle_to_inspire(angles['middle_finger_angle']),
             'ring_finger': map_angle_to_inspire(angles['ring_finger_angle']),
             'pinky_finger': map_angle_to_inspire(angles['pinky_finger_angle']),
-            'thumb': map_angle_to_inspire(angles['thumb_angle']),
+            'thumb': map_angle_to_inspire(angles['thumb_angle'], in_min=120, in_max=155, out_min=-13, out_max=70),
             'wrist': map_angle_to_inspire(angles['wrist_angle'])
         }
         
