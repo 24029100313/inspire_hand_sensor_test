@@ -39,7 +39,7 @@ class HandTeleoperationSystem:
 		self.target_hand = target_hand
 		self.running = False
 		self.last_command_time = 0
-		self.command_interval = 0.1  # Send commands every 0.1 seconds
+		self.command_interval = 0.04  # Send commands every 0.1 seconds
 		self.show_touch_data = show_touch_data
 		self.use_simulated_touch = use_simulated_touch
 		
