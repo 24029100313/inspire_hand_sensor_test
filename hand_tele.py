@@ -13,7 +13,7 @@ from pymodbus.client import ModbusTcpClient
 # Import our custom modules
 from mp_read_hand import HandDetector
 from inspire_hand_controller import InspireHandController, HandState
-from read_and_vis_data import TouchDataVisualizer
+from read_and_vis_data import TouchDataVisualizer, read_all_data
 from pysnooper import snoop
 class HandTeleoperationSystem:
 	"""
@@ -220,7 +220,9 @@ class HandTeleoperationSystem:
 				
 				# Display the frame
 				cv2.imshow('Hand Teleoperation', annotated_frame)
-				
+				touch_data = read_all_data(self.sensing_client)
+				print('touch data is ', touch_data)
+
 				# Update the touch visualization if it's enabled
 				if self.show_touch_data and self.touch_visualizer and plt.fignum_exists(self.touch_visualizer.fig.number):
 					# Update the plot without blocking

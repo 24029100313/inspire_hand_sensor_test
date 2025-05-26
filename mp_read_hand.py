@@ -153,6 +153,37 @@ class HandDetector:
                 annotated_image, f"{handedness_label} ({handedness_score:.2f})",
                 (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2
             )
+            
+            # Extract angles and inspire values
+            angles = self.extract_angles(hand_landmarks)
+            inspire_values = self.convert_fingure_to_inspire(hand_landmarks)
+            
+            if angles and inspire_values:
+                # Define finger names for display
+                finger_names = {
+                    'index_finger': 'Index',
+                    'middle_finger': 'Middle',
+                    'ring_finger': 'Ring',
+                    'pinky_finger': 'Pinky',
+                    'thumb': 'Thumb',
+                    'wrist': 'Wrist'
+                }
+                
+                # Display original angles and target values next to handedness label
+                for i, (angle_key, angle_val) in enumerate(angles.items()):
+                    # Get corresponding inspire value key
+                    inspire_key = angle_key.replace('_angle', '')
+                    if inspire_key in inspire_values:
+                        inspire_val = inspire_values[inspire_key]
+                        
+                        # Display finger name, original angle and target value
+                        display_name = finger_names.get(inspire_key, inspire_key)
+                        cv2.putText(
+                            annotated_image, 
+                            f"{display_name}: {angle_val:.1f}° → {inspire_val}",
+                            (text_x, text_y + (i+1) * 20), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1
+                        )
         
         return annotated_image
         
@@ -247,7 +278,7 @@ class HandDetector:
             'ring_finger_angle': calculate_angle(landmarks[16], landmarks[13], landmarks[0]),  # 16-13-0
             'pinky_finger_angle': calculate_angle(landmarks[20], landmarks[17], landmarks[0]),  # 20-17-0
             'thumb_angle': calculate_angle(landmarks[4], landmarks[2], landmarks[1]),  # 4-0-mean(5,9,13,17)
-            'wrist_angle': calculate_angle(landmarks[2], landmarks[1], landmarks[0])   # 1-0-mean(5,9,13,17)
+            'wrist_angle': calculate_angle(landmarks[3], landmarks[2], landmarks[1])   # 1-0-mean(5,9,13,17)
         }
         
         return angles
@@ -295,7 +326,7 @@ class HandDetector:
             'ring_finger': map_angle_to_inspire(angles['ring_finger_angle']),
             'pinky_finger': map_angle_to_inspire(angles['pinky_finger_angle']),
             'thumb': map_angle_to_inspire(angles['thumb_angle'], in_min=120, in_max=155, out_min=-13, out_max=70),
-            'wrist': map_angle_to_inspire(angles['wrist_angle'], in_min=130, in_max=145, out_min=90, out_max=165)
+            'wrist': map_angle_to_inspire(angles['wrist_angle'], in_min=130, in_max=167, out_min=90, out_max=165)
         }
         
         return inspire_values

@@ -223,6 +223,60 @@ def read_segment_data(client, segment, use_simulated_data=False, frame=0):
             return [0] * expected_size
 
 
+def read_all_data(client=None, use_simulated_data=False, frame=0):
+    """
+    Read all touch sensor data and return it as a dictionary with lists.
+    Each key in the dictionary corresponds to a finger or palm, and each value is a list of sensor values.
+    
+    Args:
+        client: ModbusTcpClient instance for reading real data. If None and use_simulated_data is False,
+                a new client will be created.
+        use_simulated_data: If True, generate simulated data instead of reading from the device.
+        frame: Frame counter for simulated data animation.
+        
+    Returns:
+        A dictionary with the following structure:
+        {
+            "pinky": [...],  # List of all pinky finger sensor values
+            "ring": [...],   # List of all ring finger sensor values
+            "middle": [...], # List of all middle finger sensor values
+            "index": [...],  # List of all index finger sensor values
+            "thumb": [...],  # List of all thumb sensor values
+            "palm": [...]    # List of all palm sensor values
+        }
+    """
+    # Create a client if needed and not using simulated data
+    created_client = False
+    if not use_simulated_data and client is None:
+        try:
+            client = ModbusTcpClient(host=MODBUS_IP, port=MODBUS_PORT)
+            client.connect()
+            created_client = True
+            print(f"Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
+        except Exception as e:
+            print(f"Error connecting to Modbus device: {e}")
+            print("Falling back to simulated data mode")
+            use_simulated_data = True
+    
+    # Initialize the result dictionary
+    result = {finger: [] for finger in FINGER_SEGMENTS.keys()}
+    
+    # Read data for each finger and segment
+    for finger, segments in FINGER_SEGMENTS.items():
+        for segment in segments:
+            segment_data = read_segment_data(client, segment, use_simulated_data, frame)
+            result[finger].extend(segment_data)
+    
+    # Close the client if we created it
+    if created_client and client is not None:
+        try:
+            client.close()
+        except Exception as e:
+            print(f"Error closing Modbus client: {e}")
+    
+    return result
+
+
 class TouchDataVisualizer:
     def __init__(self, use_simulated_data=False, client=None):
         self.use_simulated_data = use_simulated_data
