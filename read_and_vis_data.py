@@ -1,3 +1,4 @@
+from pydoc import cli
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -222,60 +223,92 @@ def read_segment_data(client, segment, use_simulated_data=False, frame=0):
             print(f"Error reading segment {segment['name']}: {e}")
             return [0] * expected_size
 
+class TouchSensorReader:
+    def __init__(self, client=None, use_simulated_data=False):
+        """
+        Initialize the TouchSensorReader.
+        
+        Args:
+            use_simulated_data: If True, use simulated data instead of reading from the device.
+        """
+        self.use_simulated_data = use_simulated_data
+        self.client = client
+        self.frame = 0
+        
+        if not self.use_simulated_data:
+            self._connect()
+    
+    def _connect(self):
+        """Establish connection to the Modbus device."""
+        if self.client is None:
+            try:
+                self.client = ModbusTcpClient(host=MODBUS_IP, port=MODBUS_PORT)
+                self.client.connect()
+                print(f"[Touch INFO] Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
+            except Exception as e:
+                print(f"[Touch INFO] Error connecting to Modbus device: {e}")
+                print("[Touch INFO] Falling back to simulated data mode")
+                self.use_simulated_data = True
+                self.client = None
+    
+    def close(self):
+        """Close the Modbus client connection if it's open."""
+        if self.client is not None:
+            try:
+                self.client.close()
+                self.client = None
+                print("[Touch INFO] Closed Modbus client connection")
+            except Exception as e:
+                print(f"[Touch INFO] Error closing Modbus client: {e}")
+    
+    def read_all_data(self):
+        """
+        Read all touch sensor data and return it as a dictionary with lists.
+        
+        Returns:
+            A dictionary with the following structure:
+            {
+                "pinky": [...],  # List of all pinky finger sensor values
+                "ring": [...],   # List of all ring finger sensor values
+                "middle": [...], # List of all middle finger sensor values
+                "index": [...],  # List of all index finger sensor values
+                "thumb": [...],  # List of all thumb sensor values
+                "palm": [...]    # List of all palm sensor values
+            }
+        """
+        # Initialize the result dictionary
+        result = {finger: [] for finger in FINGER_SEGMENTS.keys()}
+        
+        # Read data for each finger and segment
+        for finger, segments in FINGER_SEGMENTS.items():
+            for segment in segments:
+                segment_data = read_segment_data(
+                    self.client, 
+                    segment, 
+                    self.use_simulated_data, 
+                    self.frame
+                )
+                result[finger].extend(segment_data)
+        
+        self.frame += 1
+        return result
+    
+    def __enter__(self):
+        """Context manager entry point."""
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit point - ensures proper cleanup."""
+        self.close()
+
 
 def read_all_data(client=None, use_simulated_data=False, frame=0):
     """
-    Read all touch sensor data and return it as a dictionary with lists.
-    Each key in the dictionary corresponds to a finger or palm, and each value is a list of sensor values.
-    
-    Args:
-        client: ModbusTcpClient instance for reading real data. If None and use_simulated_data is False,
-                a new client will be created.
-        use_simulated_data: If True, generate simulated data instead of reading from the device.
-        frame: Frame counter for simulated data animation.
-        
-    Returns:
-        A dictionary with the following structure:
-        {
-            "pinky": [...],  # List of all pinky finger sensor values
-            "ring": [...],   # List of all ring finger sensor values
-            "middle": [...], # List of all middle finger sensor values
-            "index": [...],  # List of all index finger sensor values
-            "thumb": [...],  # List of all thumb sensor values
-            "palm": [...]    # List of all palm sensor values
-        }
+    Read all touch sensor data (legacy function).
+    Consider using TouchSensorReader class for better connection management.
     """
-    # Create a client if needed and not using simulated data
-    created_client = False
-    if not use_simulated_data and client is None:
-        try:
-            client = ModbusTcpClient(host=MODBUS_IP, port=MODBUS_PORT)
-            client.connect()
-            created_client = True
-            print(f"Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
-        except Exception as e:
-            print(f"Error connecting to Modbus device: {e}")
-            print("Falling back to simulated data mode")
-            use_simulated_data = True
-    
-    # Initialize the result dictionary
-    result = {finger: [] for finger in FINGER_SEGMENTS.keys()}
-    
-    # Read data for each finger and segment
-    for finger, segments in FINGER_SEGMENTS.items():
-        for segment in segments:
-            segment_data = read_segment_data(client, segment, use_simulated_data, frame)
-            result[finger].extend(segment_data)
-    
-    # Close the client if we created it
-    if created_client and client is not None:
-        try:
-            client.close()
-        except Exception as e:
-            print(f"Error closing Modbus client: {e}")
-    
-    return result
-
+    with TouchSensorReader(use_simulated_data) as reader:
+        return reader.read_all_data()
 
 class TouchDataVisualizer:
     def __init__(self, use_simulated_data=False, client=None):
@@ -313,10 +346,10 @@ class TouchDataVisualizer:
                     self.client = ModbusTcpClient(host=MODBUS_IP, port=MODBUS_PORT)
                     # Connect the client
                     self.client.connect()
-                    print(f"Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
+                    print(f"[Touch INFO] Successfully connected to Modbus device at {MODBUS_IP}:{MODBUS_PORT}")
                 except Exception as e:
-                    print(f"Error connecting to Modbus device: {e}")
-                    print("Falling back to simulated data mode")
+                    print(f"[Touch INFO] Error connecting to Modbus device: {e}")
+                    print("[Touch INFO] Falling back to simulated data mode")
                     self.use_simulated_data = True
                     self.client = None
         else:

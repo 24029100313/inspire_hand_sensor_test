@@ -101,11 +101,11 @@ class InspireHandController:
                 try:
                     self.client.connect()
                     print(
-                        f"Successfully connected to Modbus device at {self.ip}:{self.port}"
+                        f"[Control INFO] Successfully connected to Modbus device at {self.ip}:{self.port}"
                     )
                 except Exception as e:
                     print(
-                        f"Failed to connect to Modbus device at {self.ip}:{self.port}: {e}"
+                        f"[Control INFO] Failed to connect to Modbus device at {self.ip}:{self.port}: {e}"
                     )
                     return False
             else:
