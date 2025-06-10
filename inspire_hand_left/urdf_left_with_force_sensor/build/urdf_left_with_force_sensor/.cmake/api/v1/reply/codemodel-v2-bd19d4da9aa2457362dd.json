@@ -1,0 +1,70 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-eb6d153aacdb38d8e788.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "urdf_left_with_force_sensor",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-4e0583965676b68a84a8.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "urdf_left_with_force_sensor_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-urdf_left_with_force_sensor_uninstall-c32a1bee1cb65def5da0.json",
+					"name" : "urdf_left_with_force_sensor_uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor",
+		"source" : "/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

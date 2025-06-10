@@ -1,0 +1,104 @@
+[0.013s] Invoking command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor -DCMAKE_INSTALL_PREFIX=/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor
+[0.078s] -- The C compiler identification is GNU 10.5.0
+[0.127s] -- The CXX compiler identification is GNU 9.5.0
+[0.133s] -- Detecting C compiler ABI info
+[0.167s] -- Detecting C compiler ABI info - done
+[0.170s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.170s] -- Detecting C compile features
+[0.171s] -- Detecting C compile features - done
+[0.172s] -- Detecting CXX compiler ABI info
+[0.209s] -- Detecting CXX compiler ABI info - done
+[0.213s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.213s] -- Detecting CXX compile features
+[0.213s] -- Detecting CXX compile features - done
+[0.216s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.627s] -- Found Python3: /home/lr-2002/anaconda3/bin/python3 (found version "3.11.8") found components: Interpreter 
+[0.681s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.683s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.687s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.713s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.779s] -- Configuring done
+[0.780s] -- Generating done
+[0.781s] -- Build files have been written to: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor
+[0.786s] Invoked command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor -DCMAKE_INSTALL_PREFIX=/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor
+[0.786s] Invoking command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor -- -j32 -l32
+[0.803s] Invoked command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor -- -j32 -l32
+[0.807s] Invoking command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor
+[0.810s] -- Install configuration: ""
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/config
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/config/joint_names_urdf_left_with_force_sensor.yaml
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/config/mimic.yaml
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/config/left_controller_rviz.yaml
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/config/left_controller.yaml
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/left_controller_rviz.launch.py
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/left_hand_control.launch.py
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/left_hand_control_rviz.launch.py
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/left.launch.py
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/left_controller.launch.py
+[0.810s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/display.launch.py
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/rviz.launch.py
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/left.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/display.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/rviz.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/left_hand_control.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/left_controller_rviz.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/launch/__pycache__/left_controller.launch.cpython-310.pyc
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/little_force_sensor_1.STL
+[0.811s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/ring_force_sensor_1.STL
+[0.812s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_index_2.STL
+[0.812s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/ring_force_sensor_3.STL
+[0.812s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_middle_1.STL
+[0.812s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_thumb_1.STL
+[0.812s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/index_force_sensor_2.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/index_force_sensor_3.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_ring_2.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/thumb_force_sensor_2.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_thumb_2.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/little_force_sensor_3.STL
+[0.813s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/palm_force_sensor.STL
+[0.814s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/thumb_force_sensor_4.STL
+[0.814s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/little_force_sensor_2.STL
+[0.814s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/thumb_force_sensor_1.STL
+[0.815s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_index_1.STL
+[0.815s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_little_1.STL
+[0.815s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_ring_1.STL
+[0.816s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/middle_force_sensor_2.STL
+[0.816s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/thumb_force_sensor_3.STL
+[0.816s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_little_2.STL
+[0.816s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_middle_2.STL
+[0.816s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_thumb_3.STL
+[0.817s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/ring_force_sensor_2.STL
+[0.817s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/left_thumb_4.STL
+[0.817s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/middle_force_sensor_1.STL
+[0.817s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/middle_force_sensor_3.STL
+[0.817s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/base_link.STL
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/meshes/index_force_sensor_1.STL
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf/urdf_left_with_force_sensor.xacro
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf/urdf_left_with_force_sensor_1.urdf
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf/urdf_left_with_force_sensor.csv
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf/urdf_left_with_force_sensor_1.xacro
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/urdf/urdf_left_with_force_sensor.urdf
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/rviz
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/rviz/left.rviz
+[0.819s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/rviz/left_1.rviz
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/lib/urdf_left_with_force_sensor/glove_hand_control.py
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/ament_index/resource_index/package_run_dependencies/urdf_left_with_force_sensor
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/ament_index/resource_index/parent_prefix_path/urdf_left_with_force_sensor
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/environment/ament_prefix_path.sh
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/environment/ament_prefix_path.dsv
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/environment/path.sh
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/environment/path.dsv
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/local_setup.bash
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/local_setup.sh
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/local_setup.zsh
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/local_setup.dsv
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/package.dsv
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/ament_index/resource_index/packages/urdf_left_with_force_sensor
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/cmake/urdf_left_with_force_sensorConfig.cmake
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/cmake/urdf_left_with_force_sensorConfig-version.cmake
+[0.820s] -- Installing: /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/install/urdf_left_with_force_sensor/share/urdf_left_with_force_sensor/package.xml
+[0.822s] Invoked command in '/home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/lr-2002/project/utpt/inspire_hand/ros2/urdf_left_with_force_sensor/build/urdf_left_with_force_sensor

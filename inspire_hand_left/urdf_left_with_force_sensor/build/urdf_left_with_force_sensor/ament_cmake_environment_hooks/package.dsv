@@ -1,0 +1,4 @@
+source;share/urdf_left_with_force_sensor/local_setup.bash
+source;share/urdf_left_with_force_sensor/local_setup.dsv
+source;share/urdf_left_with_force_sensor/local_setup.sh
+source;share/urdf_left_with_force_sensor/local_setup.zsh

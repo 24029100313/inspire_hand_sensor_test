@@ -1,0 +1,777 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="urdf_left_with_force_sensor">
+
+  <link name="world"/>
+
+  <joint name="L_hand_base_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 -1.57"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <xacro:include filename="$(find urdf_left_with_force_sensor)/urdf/urdf_left_with_force_sensor.urdf" />
+
+  <gazebo reference="base_link">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="palm_force_sensor_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="palm_force_sensor_joint">
+    <gravity>true</gravity>
+    <sensor name="palm_force_sensor" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_thumb_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>  
+  <gazebo reference="left_thumb_2">
+      <gravity>false</gravity>
+  </gazebo> 
+  <gazebo reference="thumb_force_sensor_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo> 
+  <gazebo
+      reference="thumb_force_sensor_1_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_1_joint">
+    <gravity>true</gravity>
+    <sensor name="thumb_force_sensor_1" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_thumb_3">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_2">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="thumb_force_sensor_2_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_2_joint">
+    <gravity>true</gravity>
+    <sensor name="thumb_force_sensor_2" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_thumb_4">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_3">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="thumb_force_sensor_3_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_3_joint">
+    <gravity>true</gravity>
+    <sensor name="thumb_force_sensor_3" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_4">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="thumb_force_sensor_4_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="thumb_force_sensor_4_joint">
+    <gravity>true</gravity>
+    <sensor name="thumb_force_sensor_4" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_index_1">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="index_force_sensor_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="index_force_sensor_1_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="index_force_sensor_1_joint">
+    <gravity>true</gravity>
+    <sensor name="index_force_sensor_1" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_index_2">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="index_force_sensor_2">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="index_force_sensor_2_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="index_force_sensor_2_joint">
+    <gravity>true</gravity>
+    <sensor name="index_force_sensor_2" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+    <gazebo reference="index_force_sensor_3">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="index_force_sensor_3_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="index_force_sensor_3_joint">
+    <gravity>true</gravity>
+    <sensor name="index_force_sensor_3" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_middle_1">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="middle_force_sensor_1_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_1_joint">
+    <gravity>true</gravity>
+    <sensor name="middle_force_sensor_1" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_middle_2">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_2">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="middle_force_sensor_2_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_2_joint">
+    <gravity>true</gravity>
+    <sensor name="middle_force_sensor_2" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_3">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="middle_force_sensor_3_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="middle_force_sensor_3_joint">
+    <gravity>true</gravity>
+    <sensor name="middle_force_sensor_3" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_ring_1">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="ring_force_sensor_1_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_1_joint">
+    <gravity>true</gravity>
+    <sensor name="ring_force_sensor_1" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_ring_2">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_2">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="ring_force_sensor_2_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_2_joint">
+    <gravity>true</gravity>
+    <sensor name="ring_force_sensor_2" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_3">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="ring_force_sensor_3_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="ring_force_sensor_3_joint">
+    <gravity>true</gravity>
+    <sensor name="ring_force_sensor_3" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_little_1">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="little_force_sensor_1">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="little_force_sensor_1_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="little_force_sensor_1_joint">
+    <gravity>true</gravity>
+    <sensor name="little_force_sensor_1" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_little_2">
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="little_force_sensor_2">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="little_force_sensor_2_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="little_force_sensor_2_joint">
+    <gravity>true</gravity>
+    <sensor name="little_force_sensor_2" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  <gazebo reference="little_force_sensor_3">
+      <self_collide>false</self_collide>
+      <gravity>false</gravity>
+  </gazebo>
+  <gazebo
+      reference="little_force_sensor_3_joint">
+      <provideFeedback>true</provideFeedback>
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <gazebo reference="little_force_sensor_3_joint">
+    <gravity>true</gravity>
+    <sensor name="little_force_sensor_3" type="force_torque">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+<xacro:macro name="transmission_block" params="joint_name">
+  <transmission name="${joint_name}_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${joint_name}">
+      <hardware_interface>hardware_interface/PositionJointInterface</hardware_interface>
+    </joint>
+    <actuator name="${joint_name}_motor">
+      <hardware_interface>hardware_interface/PositionJointInterface</hardware_interface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+</xacro:macro>
+
+<xacro:transmission_block joint_name="left_thumb_1_joint"/>
+<xacro:transmission_block joint_name="left_thumb_2_joint"/>
+<xacro:transmission_block joint_name="left_index_1_joint"/>
+<xacro:transmission_block joint_name="left_middle_1_joint"/>
+<xacro:transmission_block joint_name="left_ring_1_joint"/>
+<xacro:transmission_block joint_name="left_little_1_joint"/>
+
+<xacro:macro name="gz_mimic_plugin" params="leader_joint follower_joint multiplier:=1.0 offset:=0.0">
+  <gazebo>
+    <plugin name="${follower_joint}_mimic" filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so">
+      <parameters>$(find urdf_left_with_force_sensor)/config/mimic.yaml</parameters>
+      <joint>${leader_joint}</joint>
+      <mimicJoint>${follower_joint}</mimicJoint>
+      <multiplier>${multiplier}</multiplier>
+      <offset>${offset}</offset>
+      <sensitiveness>0.1</sensitiveness>
+      <max_effort>10.0</max_effort>
+      <hasPID/>
+    </plugin>
+  </gazebo>
+</xacro:macro>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_thumb_2_joint" 
+  follower_joint="left_thumb_3_joint" 
+  multiplier="0.8024"/>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_thumb_3_joint" 
+  follower_joint="left_thumb_4_joint" 
+  multiplier="0.9487"/>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_index_1_joint" 
+  follower_joint="left_index_2_joint" 
+  multiplier="1.0843"/>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_middle_1_joint" 
+  follower_joint="left_middle_2_joint" 
+  multiplier="1.0843"/>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_ring_1_joint" 
+  follower_joint="left_ring_2_joint" 
+  multiplier="1.0843"/>
+
+<xacro:gz_mimic_plugin 
+  leader_joint="left_little_1_joint" 
+  follower_joint="left_little_2_joint" 
+  multiplier="1.0843"/>
+  
+  <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+          <param name="use_pid">true</param>
+      </hardware>
+      <joint name="left_thumb_1_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_thumb_2_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_thumb_3_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_thumb_4_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_index_1_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_index_2_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_middle_1_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_middle_2_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_ring_1_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_ring_2_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_little_1_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <joint name="left_little_2_joint">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+              <param name="initial_value">0</param>
+          </state_interface>
+         <state_interface name="velocity">
+              <param name="initial_value">0</param>
+          </state_interface>
+      </joint>
+      <sensor name="palm_force_sensor">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">palm_force_sensor</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>
+      <sensor name="thumb_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>
+      <sensor name="thumb_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>    
+      <sensor name="thumb_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>    
+      <sensor name="thumb_force_sensor_4">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_4</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="index_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="index_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="index_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="middle_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="middle_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="middle_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="ring_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="ring_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="ring_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="little_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="little_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="little_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+  </ros2_control>
+
+  <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <parameters>$(find urdf_left_with_force_sensor)/config/left_controller.yaml</parameters>
+          <pid>true</pid>
+      </plugin>
+  </gazebo>
+</robot>

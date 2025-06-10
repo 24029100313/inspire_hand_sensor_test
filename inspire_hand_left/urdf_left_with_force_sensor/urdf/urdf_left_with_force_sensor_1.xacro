@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="urdf_left_with_force_sensor">
+  <xacro:include filename="$(find urdf_left_with_force_sensor)/urdf/urdf_left_with_force_sensor_1.urdf"/>
+  
+  <ros2_control name="FakeHardware" type="system">
+    <hardware>
+      <plugin>fake_components/GenericSystem</plugin>
+    </hardware>
+    <!-- 关节控制接口定义 -->
+    <joint name="left_thumb_1_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <joint name="left_thumb_2_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <joint name="left_index_1_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <joint name="left_middle_1_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <joint name="left_ring_1_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <joint name="left_little_1_joint">
+      <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value"></param>
+      </state_interface>
+      <state_interface name="velocity">
+      <param name="initial_value">0</param>
+      </state_interface>
+    </joint>
+    <!-- 力传感器定义 -->
+    <sensor name="palm_force_sensor">
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+      <param name="frame_id">palm_force_sensor</param>
+      <param name="fx_range">100</param>
+      <param name="fy_range">100</param>
+      <param name="fz_range">100</param>
+      <param name="tx_range">15</param>
+      <param name="ty_range">15</param>
+      <param name="tz_range">15</param>
+    </sensor>
+    <sensor name="thumb_force_sensor_1">
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+      <param name="frame_id">thumb_force_sensor_1</param>
+      <param name="fx_range">100</param>
+      <param name="fy_range">100</param>
+      <param name="fz_range">100</param>
+      <param name="tx_range">15</param>
+      <param name="ty_range">15</param>
+      <param name="tz_range">15</param>
+    </sensor>
+      <sensor name="thumb_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>    
+      <sensor name="thumb_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>    
+      <sensor name="thumb_force_sensor_4">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">thumb_force_sensor_4</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="index_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="index_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="index_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">index_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="middle_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="middle_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="middle_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">middle_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor> 
+      <sensor name="ring_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="ring_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="ring_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">ring_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="little_force_sensor_1">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_1</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>  
+      <sensor name="little_force_sensor_2">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_2</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+      <sensor name="little_force_sensor_3">
+        <state_interface name="force.x" />
+        <state_interface name="force.y" />
+        <state_interface name="force.z" />
+        <state_interface name="torque.x" />
+        <state_interface name="torque.y" />
+        <state_interface name="torque.z" />
+        <param name="frame_id">little_force_sensor_3</param>
+        <param name="fx_range">100</param>
+        <param name="fy_range">100</param>
+        <param name="fz_range">100</param>
+        <param name="tx_range">15</param>
+        <param name="ty_range">15</param>
+        <param name="tz_range">15</param>
+      </sensor>   
+  </ros2_control>
+</robot>
