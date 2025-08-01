@@ -36,8 +36,26 @@ class HandDetector:
         """
         Initialize the MediaPipe Hand Landmarker.
         """
+        # Get the absolute path of the model file
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(script_dir, 'hand_landmarker.task')
+        
+        # Download the model if not available
+        if not os.path.exists(model_path):
+            print("Downloading hand landmarker model...")
+            import urllib.request
+            url = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
+            try:
+                urllib.request.urlretrieve(url, model_path)
+                print("Model downloaded successfully.")
+            except Exception as e:
+                print(f"Failed to download model: {e}")
+                raise
+        else:
+            print("Hand landmarker model already exists, skipping download.")
+        
         # Initialize MediaPipe Hand Landmarker
-        base_options = python.BaseOptions(model_asset_path='hand_landmarker.task')
+        base_options = python.BaseOptions(model_asset_path=model_path)
         options = vision.HandLandmarkerOptions(
             base_options=base_options,
             num_hands=2,  # Detect up to 2 hands
@@ -46,14 +64,6 @@ class HandDetector:
             min_tracking_confidence=0.5,
             running_mode=vision.RunningMode.VIDEO
         )
-        
-        # Download the model if not available
-        if not os.path.exists('hand_landmarker.task'):
-            print("Downloading hand landmarker model...")
-            import urllib.request
-            url = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
-            urllib.request.urlretrieve(url, 'hand_landmarker.task')
-            print("Model downloaded successfully.")
         
         # Create the hand landmarker
         self.landmarker = vision.HandLandmarker.create_from_options(options)
