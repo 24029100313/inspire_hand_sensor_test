@@ -1,6 +1,90 @@
 # Inspire Hand 控制系统
 
-这是一个用于控制Inspire灵巧手的综合软件包，支持多种控制方式和功能。该项目集成了手部姿态检测、远程操作、触觉传感器数据可视化以及ROS仿真等功能。
+> **🚀 最新更新 (2025-08-01)**: 完成基于Isaac Lab官方架构的Warp GPU加速状态机重写！
+
+## 🎯 **快速启动**
+
+### 状态机模式 (推荐)
+```bash
+# 纯状态机自动抓取 (无需摄像头)
+./run_state_machine.sh
+
+# 无头模式测试
+./run_state_machine.sh --headless
+
+# 多环境并行
+./run_state_machine.sh --num_envs 4
+```
+
+### MediaPipe手势控制模式
+```bash
+# 手势控制抓取 (需要摄像头)
+./run_with_mediapipe.sh
+```
+
+## ✨ **核心特性**
+
+### 🤖 **Warp GPU加速状态机** (最新)
+- **基于**: Isaac Lab官方lift_cube_sm.py架构
+- **状态序列**: REST → APPROACH_ABOVE → APPROACH → GRASP → LIFT
+- **技术栈**: Warp内核GPU并行 + 距离阈值检测 + 真实位置控制
+- **支持**: 多环境并行，实时状态可视化
+
+### 🎮 **双控制模式**
+1. **状态机模式**: 自动cube抓取演示，无需人工干预
+2. **MediaPipe模式**: 实时手势映射控制，自然交互
+
+### 🔬 **1061传感器集成** (准备就绪)
+- 17个传感器组，总计1061个触觉pad
+- 极精细的力感知和接触检测
+- 与Isaac Lab完美集成
+
+## 📁 **项目结构**
+
+### 🎯 **主要执行文件**
+```
+lift_cube_inspire_hand_state_machine.py  # Warp GPU状态机 (重写版)
+lift_cube_inspire_hand_with_mediapipe.py # MediaPipe手势控制
+run_state_machine.sh                     # 状态机启动脚本
+run_with_mediapipe.sh                    # 手势控制启动脚本
+```
+
+### 📋 **技术文档**
+```
+project_status.md                        # 最新项目状态和问题
+inspire_hand_isaac_lab_integration_summary.txt  # 技术架构总结
+test_results_summary.md                 # 测试结果记录
+```
+
+### ⚙️ **配置和工具**
+```
+inspire_hand_controller.py              # 原始控制器
+mp_read_hand.py                         # MediaPipe手势识别
+hand_landmarker.task                    # MediaPipe模型文件
+```
+
+## 🚧 **当前状态 & 待解决问题**
+
+### ✅ **已完成**
+- [x] 基于官方lift_cube_sm.py的状态机重写
+- [x] Warp GPU加速的并行处理
+- [x] 5状态抓取序列实现
+- [x] FrameTransformer端执行器跟踪
+- [x] 距离阈值状态转换
+- [x] API兼容性问题修复
+
+### ⚠️ **当前问题**
+- [ ] **CUDA驱动异常**: `CUDA error 999: unknown error`
+  - **状态**: GPU显示空闲，但Isaac Lab无法初始化CUDA
+  - **建议**: 系统重启后重新测试
+
+### 📋 **下次测试计划**
+1. **确认CUDA状态**: `nvidia-smi`
+2. **测试状态机**: `./run_state_machine.sh --headless`
+3. **验证抓取功能**: 观察5状态序列是否正常执行
+4. **性能调优**: 调整阈值和等待时间参数
+
+这是一个用于控制Inspire灵巧手的综合软件包，支持多种控制方式和功能。该项目集成了手部姿态检测、远程操作、触觉传感器数据可视化以及Isaac Lab仿真等功能。
 
 ## 项目概述
 

@@ -1,5 +1,83 @@
 # Inspire Hand + Isaac Lab 集成项目状态
 
+## 🚀 **最新进展 (2025-08-01)**
+
+### ✅ **状态机重大重写完成**
+
+#### 1. 基于官方lift_cube_sm.py的核心重写
+- **文件**: `lift_cube_inspire_hand_state_machine.py` (完全重写)
+- **架构**: 基于Isaac Lab官方lift_cube_sm.py的Warp GPU加速状态机
+- **状态序列**: REST → APPROACH_ABOVE_OBJECT → APPROACH_OBJECT → GRASP_OBJECT → LIFT_OBJECT
+- **技术栈**: Warp内核GPU并行处理 + 距离阈值检测 + 真实位置控制
+
+#### 2. 新增功能特性
+- **Warp加速**: GPU并行状态机处理，支持多环境
+- **FrameTransformer**: 端执行器位置跟踪和可视化
+- **距离检测**: `distance_below_threshold()` 函数控制状态转换
+- **状态可视化**: 实时状态名称和等待时间显示
+- **优化参数**: 增强的关节控制参数 (stiffness=80.0, damping=4.0)
+
+#### 3. 运行脚本更新
+- **run_state_machine.sh**: 纯状态机模式 (无MediaPipe)
+- **run_with_mediapipe.sh**: 手势控制模式
+- 支持 `--headless` 和 `--num_envs` 参数
+
+### ⚠️ **当前待解决问题**
+
+#### 1. CUDA驱动问题
+```
+CUDA error 999: unknown error
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment
+```
+- **原因**: CUDA驱动状态异常，可能需要系统重启
+- **状态**: GPU显示空闲，但Isaac Lab无法初始化CUDA上下文
+- **解决方案**: 系统重启后重新测试
+
+#### 2. API兼容性问题 (已解决)
+- **问题**: `FrameTransformerCfg.FrameVisualizerCfg` API不存在
+- **解决**: 简化为 `debug_vis=False` 配置
+
+### 📋 **下次启动后的测试计划**
+
+#### Phase 1: 基础验证
+```bash
+# 1. 确认CUDA状态
+nvidia-smi
+
+# 2. 测试状态机 (headless模式)
+./run_state_machine.sh --headless
+
+# 3. 测试状态机 (可视化模式)
+./run_state_machine.sh
+```
+
+#### Phase 2: 功能验证
+- 验证5状态抓取序列是否正常运行
+- 检查手指关节控制是否响应状态机指令
+- 确认cube位置和手部位置的距离检测
+- 观察状态转换时机和等待时间
+
+#### Phase 3: 性能优化
+- 调试手指抓取参数 (如果抓取不稳定)
+- 优化状态转换阈值 (position_threshold=0.03)
+- 测试多环境并行 (`--num_envs 4`)
+
+### 🔧 **技术实现要点**
+
+#### 状态机核心逻辑
+```python
+@wp.kernel
+def infer_state_machine(...):
+    # GPU并行处理每个环境的状态转换
+    # 基于距离阈值和等待时间的状态机
+```
+
+#### 关键改进点
+1. **真实位置控制**: 不再只是手指开合，而是整体空间运动
+2. **距离阈值检测**: 精确的位置到达判断
+3. **Warp GPU加速**: 支持大规模并行环境
+4. **状态持久化**: 合理的等待时间避免状态抖动
+
 ## ✅ 已完成的核心组件
 
 ### 1. 主程序文件
